@@ -1,0 +1,584 @@
+/* =========================================================================
+   La Maison du Carac
+   Palette tiree du produit : fondant vert pomme + chocolat noir sur porcelaine.
+   Theme unique clair, bascule automatique en sombre (prefers-color-scheme).
+   Le hero et la section lieu sont des bandes media : le texte y est clair
+   par-dessus un voile sombre, dans les deux themes.
+   Rayons : pastille pleine pour les boutons, 16px pour les medias et cartes.
+   ========================================================================= */
+
+:root{
+  --ground:        #F2F3EE;
+  --ground-2:      #E7E9E0;
+  --panel:         #FBFBF8;
+  --ink:           #191A15;
+  --ink-soft:      #565A4E;
+  --line:          rgba(25, 26, 21, .14);
+
+  --accent:        #7FB335;   /* le vert du fondant */
+  --accent-deep:   #3E6612;   /* meme vert, lisible en texte sur clair */
+  --on-accent:     #171A11;   /* encre sur aplat vert, 7,5:1 */
+  --on-accent-soft:#2A3018;   /* texte courant sur aplat vert, 5,5:1 */
+
+  --sur-media:     #F5F6F1;   /* texte pose sur une image */
+  --voile:         9, 10, 7;  /* teinte du voile sombre */
+
+  --radius:      16px;
+  --radius-pill: 999px;
+  --gutter:      clamp(20px, 5vw, 72px);
+  --nav-h:       68px;
+  --wrap:        1360px;
+  --ease:        cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --ground:      #141310;
+    --ground-2:    #1C1B16;
+    --panel:       #21201A;
+    --ink:         #EDEDE4;
+    --ink-soft:    #A2A295;
+    --line:        rgba(237, 237, 228, .16);
+    --accent:      #8FC53C;
+    --accent-deep: #B9E072;
+  }
+}
+
+/* ---------------------------------------------------------------- socle -- */
+
+*, *::before, *::after{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+
+body{
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1rem, .97rem + .16vw, 1.0625rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, video{ display: block; max-width: 100%; }
+a{ color: inherit; }
+h1, h2, h3{ margin: 0; }
+p{ margin: 0; }
+ul, ol{ margin: 0; padding: 0; list-style: none; }
+figure{ margin: 0; }
+
+.display{
+  font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 60;
+  letter-spacing: -.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.wrap{
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.h-sec{ font-size: clamp(2rem, 1.1rem + 3.6vw, 4rem); }
+
+.eyebrow{
+  font-size: .8125rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: .72;
+  margin-bottom: clamp(16px, 2vw, 26px);
+}
+
+.lead{
+  font-size: clamp(1.0625rem, 1rem + .4vw, 1.3125rem);
+  max-width: 34rem;
+}
+
+.sentinelle{ position: absolute; top: 0; width: 1px; height: 1px; }
+
+.skip{
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--accent); color: var(--on-accent);
+  padding: 12px 18px; border-radius: 0 0 var(--radius) 0; font-weight: 600;
+}
+.skip:focus{ left: 0; }
+
+:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.ico{ width: 1.15em; height: 1.15em; flex: none; fill: currentColor; }
+
+/* --------------------------------------------------------------- marque -- */
+
+.brand{
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  font-family: 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 16;
+  letter-spacing: -.02em;
+  font-size: 1.0625rem;
+  white-space: nowrap;
+}
+
+/* le carac vu de dessus : disque vert, pastille chocolat */
+.brand__mark{
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent);
+  display: grid; place-items: center;
+  flex: none;
+}
+.brand__mark::after{
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #2E1B12;
+}
+
+/* -------------------------------------------------------------- boutons -- */
+
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font: inherit; font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s var(--ease), background-color .18s var(--ease),
+              border-color .18s var(--ease), color .18s var(--ease);
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: scale(.98); }
+
+.btn--primary{ background: var(--accent); color: var(--on-accent); }
+.btn--primary:hover{ background: color-mix(in srgb, var(--accent) 88%, #000); }
+
+.btn--ghost{ border-color: var(--line); color: var(--ink); background: transparent; }
+.btn--ghost:hover{ border-color: var(--ink); }
+
+/* bouton pose sur une image : contour clair et fond legerement voile */
+.btn--clair{
+  color: var(--sur-media);
+  border-color: rgba(245, 246, 241, .45);
+  background: rgba(var(--voile), .30);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.btn--clair:hover{ border-color: var(--sur-media); background: rgba(var(--voile), .5); }
+
+/* ---------------------------------------------------------- navigation -- */
+
+.nav{
+  position: fixed; inset-inline: 0; top: 0; z-index: 30;
+  height: var(--nav-h);
+  color: var(--sur-media);
+  border-bottom: 1px solid transparent;
+  transition: background-color .35s var(--ease), color .35s var(--ease),
+              border-color .35s var(--ease);
+}
+.nav.is-solide{
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: saturate(150%) blur(14px);
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  color: var(--ink);
+  border-bottom-color: var(--line);
+}
+
+.nav__inner{
+  height: 100%;
+  max-width: var(--wrap); margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex; align-items: center; gap: clamp(16px, 3vw, 40px);
+}
+
+.nav__links{
+  display: flex; gap: clamp(16px, 2.2vw, 30px);
+  margin-inline-start: auto;
+  font-size: .9375rem;
+}
+.nav__links a{
+  text-decoration: none; opacity: .78;
+  padding-block: 6px;
+  transition: opacity .18s var(--ease);
+}
+.nav__links a:hover{ opacity: 1; }
+
+.nav__tel{
+  min-height: 40px; padding-inline: 16px; font-size: .9375rem;
+  color: inherit;
+  border-color: color-mix(in srgb, currentColor 38%, transparent);
+}
+.nav__tel:hover{ border-color: currentColor; }
+.nav__tel-short{ display: none; }
+
+@media (max-width: 860px){
+  .nav__links{ display: none; }
+  .nav__tel{ margin-inline-start: auto; }
+  .nav__tel-full{ display: none; }
+  .nav__tel-short{ display: inline; }
+}
+
+@media (prefers-reduced-transparency: reduce){
+  .nav.is-solide{ background: var(--ground); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .btn--clair{ background: rgba(var(--voile), .72); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ----------------------------------------------------------------- hero -- */
+
+.hero{
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+  background: rgb(var(--voile));
+}
+
+.hero__media{
+  position: absolute; inset: 0; z-index: -2;
+  will-change: transform;
+}
+.hero__media > *{ width: 100%; height: 100%; object-fit: cover; }
+
+.hero__scrim{
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to top,
+      rgba(var(--voile), .92) 0%,
+      rgba(var(--voile), .58) 34%,
+      rgba(var(--voile), .12) 70%,
+      rgba(var(--voile), .34) 100%),
+    linear-gradient(to right,
+      rgba(var(--voile), .62) 0%,
+      rgba(var(--voile), .20) 48%,
+      rgba(var(--voile), 0) 74%);
+}
+
+.hero__copy{
+  position: relative;
+  width: 100%;
+  color: var(--sur-media);
+  padding-block: clamp(52px, 10vh, 128px);
+  will-change: transform, opacity;
+}
+
+.hero__title{
+  font-size: clamp(2.5rem, 1rem + 5.2vw, 5rem);
+  margin-bottom: clamp(20px, 2.4vw, 30px);
+  text-wrap: nowrap;
+}
+.hero__title .line{ display: block; }
+
+.hero .lead{ color: rgba(245, 246, 241, .84); max-width: 38rem; }
+
+.hero__cta{
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-top: clamp(26px, 3.2vw, 40px);
+}
+
+@media (max-width: 720px){
+  .hero{ min-height: 92svh; }
+  .hero__title{ text-wrap: balance; }
+  /* le plan large est cadre pour un ecran horizontal : en portrait, on vise
+     la droite de l image, la ou sont les caracs, plutot que l ardoise nue */
+  .hero__media > *{ object-position: 68% center; }
+}
+
+/* ------------------------------------------------- le carac, aplat vert -- */
+
+.anatomie{
+  background: var(--accent);
+  color: var(--on-accent);
+  padding-block: clamp(72px, 10vw, 140px);
+}
+
+.anatomie__lead{
+  color: var(--on-accent-soft);
+  max-width: 38rem;
+  margin-top: clamp(16px, 1.8vw, 24px);
+  font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem);
+}
+
+.anatomie__grid{
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  margin-top: clamp(44px, 5.5vw, 80px);
+}
+
+.couches li + li{
+  border-top: 1px solid rgba(23, 26, 17, .22);
+  margin-top: clamp(20px, 2.4vw, 30px);
+  padding-top: clamp(20px, 2.4vw, 30px);
+}
+.couches h3{
+  font-family: 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+  font-weight: 600; font-variation-settings: 'opsz' 22;
+  letter-spacing: -.025em;
+  font-size: clamp(1.3rem, 1.1rem + .7vw, 1.75rem);
+  margin-bottom: 6px;
+}
+.couches p{ color: var(--on-accent-soft); max-width: 30rem; }
+
+.anatomie__fig{
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(23, 26, 17, .12);
+  aspect-ratio: 16 / 9;
+}
+.anatomie__fig > *{ width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 860px){
+  .anatomie__grid{ grid-template-columns: 1fr; }
+  .anatomie__fig{ order: -1; }
+}
+
+/* ---------------------------------------- la vitrine, travelling lateral -- */
+/* Par defaut : carrousel a defilement tactile, qui marche sans JS.
+   Le mode epingle (.is-pinned) est pose par main.js sur grand ecran.      */
+
+.pan{ padding-top: clamp(72px, 10vw, 140px); }
+
+.pan__head{ margin-bottom: clamp(30px, 4vw, 56px); }
+
+.pan__scroller{
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: clamp(64px, 9vw, 128px);
+}
+.pan__scroller::-webkit-scrollbar{ display: none; }
+
+.pan__track{
+  display: flex;
+  gap: clamp(12px, 1.4vw, 22px);
+  padding-inline: var(--gutter);
+  width: max-content;
+}
+
+.carte{
+  flex: 0 0 min(78vw, 420px);
+  scroll-snap-align: center;
+  height: clamp(380px, 62vw, 520px);
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.carte img, .carte video{
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .9s var(--ease);
+}
+.carte:hover img, .carte:hover video{ transform: scale(1.05); }
+
+.carte__txt{ padding: clamp(16px, 1.5vw, 22px) clamp(18px, 1.7vw, 24px) clamp(18px, 1.7vw, 24px); }
+.carte__txt h3{
+  font-family: 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+  font-weight: 600; font-variation-settings: 'opsz' 18;
+  letter-spacing: -.025em;
+  font-size: 1.1875rem;
+  margin-bottom: 3px;
+}
+.carte__txt p{ font-size: .9375rem; color: var(--ink-soft); }
+
+.carte--mot{
+  /* une seule rangee dimensionnee par son contenu : align-content peut alors
+     repartir l espace libre et centrer le texte verticalement */
+  grid-template-rows: auto;
+  align-content: center;
+  background: var(--accent);
+  border-color: transparent;
+}
+.carte--mot .carte__txt{ padding: clamp(22px, 2.2vw, 32px); }
+.carte--mot h3{
+  color: var(--on-accent);
+  font-size: clamp(1.35rem, 1.1rem + .7vw, 1.75rem);
+  margin-bottom: 10px;
+}
+.carte--mot p{ color: var(--on-accent-soft); font-size: 1rem; }
+
+/* mode epingle : la section devient haute, la scene reste collee, la piste glisse */
+.pan.is-pinned{
+  padding-top: 0;
+  height: 340vh;
+}
+.pan.is-pinned .pan__stage{
+  position: sticky; top: 0;
+  height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: clamp(24px, 3.4vw, 52px);
+  overflow: hidden;
+}
+.pan.is-pinned .pan__head{ margin-bottom: 0; }
+.pan.is-pinned .pan__scroller{
+  overflow: hidden;
+  scroll-snap-type: none;
+  padding-bottom: 0;
+}
+.pan.is-pinned .pan__track{ will-change: transform; }
+.pan.is-pinned .carte{
+  flex-basis: clamp(300px, 27vw, 440px);
+  height: clamp(320px, 48svh, 500px);
+  scroll-snap-align: none;
+}
+
+/* ----------------------------------------------------------------- avis -- */
+
+.avis{
+  background: var(--ground-2);
+  padding-block: clamp(72px, 10vw, 140px);
+}
+
+.avis__wrap{
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(24px, 3vw, 48px);
+  row-gap: clamp(28px, 3.6vw, 56px);
+}
+
+.note{
+  grid-column: 1 / -1;
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--accent-deep);
+  font-weight: 600; font-size: .9375rem;
+}
+.ico--star{ width: 1.05em; height: 1.05em; }
+
+.avis__grande{ grid-column: 1 / 9; }
+.avis__grande blockquote{
+  margin: 0;
+  font-size: clamp(1.6rem, 1rem + 2.6vw, 3rem);
+  line-height: 1.14;
+  font-variation-settings: 'opsz' 44;
+  font-weight: 500;
+}
+
+.avis__petite{ grid-column: 9 / 13; align-self: end; }
+.avis__petite blockquote{
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.avis figcaption{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: .9375rem; font-weight: 600;
+}
+.avis figcaption span{ display: block; font-weight: 400; color: var(--ink-soft); }
+
+@media (max-width: 860px){
+  .avis__grande, .avis__petite{ grid-column: 1 / -1; }
+}
+
+/* ---------------------------------------- nous trouver, panneau sur media -- */
+
+.lieu{
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(480px, 76svh, 780px);
+  display: flex; align-items: center;
+  background: var(--ground-2);
+}
+
+/* empilement explicite : le media en couche 0, le panneau au-dessus.
+   Pas de z-index negatif, dont le rendu depend du fond de l ancetre.   */
+.lieu__media{
+  position: absolute; left: 0; right: 0; top: -8%;
+  height: 116%;
+  z-index: 0;
+  will-change: transform;
+}
+.lieu__media img{ width: 100%; height: 100%; object-fit: cover; }
+
+.lieu__wrap{ position: relative; z-index: 1; }
+
+.panneau{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(26px, 3.2vw, 44px);
+  width: min(100%, 31rem);
+}
+.panneau .display{ font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.3rem); }
+
+.infos{
+  margin-block: clamp(22px, 2.6vw, 30px);
+  display: grid; gap: 16px;
+}
+.infos li{ display: flex; gap: 12px; align-items: flex-start; }
+.infos .ico{ margin-top: 4px; color: var(--accent-deep); }
+.infos strong{ display: block; font-weight: 600; }
+.infos span{ display: block; color: var(--ink-soft); font-size: .9375rem; }
+.infos a{ text-decoration: none; border-bottom: 1px solid var(--line); }
+.infos a:hover{ border-bottom-color: currentColor; }
+
+@media (max-width: 900px){
+  .lieu{ display: block; min-height: 0; overflow: visible; }
+  .lieu__media{ position: static; height: clamp(240px, 46vw, 380px); }
+  .lieu__wrap{ margin-top: calc(-1 * clamp(30px, 6vw, 56px)); }
+  .panneau{ width: 100%; }
+}
+
+/* ----------------------------------------------------------------- pied -- */
+
+.pied{
+  padding-block: clamp(44px, 5.5vw, 72px);
+  border-top: 1px solid var(--line);
+  margin-top: clamp(64px, 8vw, 110px);
+}
+.pied__inner{
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px clamp(20px, 3vw, 40px);
+}
+.pied__adr{ color: var(--ink-soft); font-size: .9375rem; }
+.pied__tel{ margin-inline-start: auto; font-weight: 600; }
+.pied__tel a{ text-decoration: none; }
+.pied__tel a:hover{ text-decoration: underline; }
+
+.pied__note{
+  margin-top: clamp(18px, 2vw, 26px);
+  padding-top: clamp(16px, 1.8vw, 22px);
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: .8125rem;
+  max-width: 46rem;
+}
+
+@media (max-width: 700px){ .pied__tel{ margin-inline-start: 0; } }
+
+/* ------------------------------------------------------------ apparition -- */
+/* Chaque bloc se met en place a l entree dans le viewport : cela donne le
+   rythme de lecture. Sans JS, tout est visible d emblee.                    */
+
+.js [data-reveal]{
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity   .8s var(--ease) var(--d, 0s),
+    transform .8s var(--ease) var(--d, 0s);
+}
+.js [data-reveal].is-in{ opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *, *::before, *::after{
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .js [data-reveal]{ opacity: 1 !important; transform: none !important; }
+  .carte:hover img, .carte:hover video{ transform: none; }
+  .hero__media, .hero__copy, .lieu__media{ transform: none !important; }
+  .hero__copy{ opacity: 1 !important; }
+}
