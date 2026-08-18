@@ -2,7 +2,20 @@
 
 Site vitrine d'une page pour la confiserie Gremion, boulevard du Pont-d'Arve 6, 1205 Genève.
 
-## Ouvrir
+## En ligne
+
+<https://timoteoadrogue.github.io/maison-du-carac/>
+
+La page est publiée en `noindex, nofollow` et porte une mention en pied de page
+(« projet de site, non officiel, visuels générés par IA »). C'est volontaire : le site
+reprend le nom, l'adresse, le téléphone et les balises JSON-LD d'un commerce réel, et ne
+doit pas être confondu avec son site officiel ni apparaître dans les résultats de
+recherche à sa place. Retirer ces deux garde-fous seulement avec l'accord du commerce :
+la balise `robots` dans `index.html` et le paragraphe `.pied__note` du pied de page.
+
+Un `git push` sur `main` republie automatiquement.
+
+## Ouvrir en local
 
 Double-cliquer sur `index.html` suffit. Pour un contexte plus proche de la production
 (en-têtes corrects, pas de restrictions `file://`) :
